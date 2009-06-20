@@ -13,12 +13,12 @@ from PyQt4.QtGui import *
 from tweetsearcherGui import *
 
 
-class newSearch(QWidget):
+class newSearch(QMdiSubWindow):
     
     searchTerm = "TweetSearcher"
 
     def __init__(self, parent):
-        QWidget.__init__(self)
+        QMdiSubWindow.__init__(self)
         self.parent = parent
         self.parent.mdiArea.addSubWindow(self)
         self.gui = newSearchGui(self)
@@ -39,6 +39,9 @@ class tweetsearcher(QMainWindow):
 
     def settingsAction(self):
         pass
+
+    def messageChanged(self):
+        self.gui.statusMessage.setText('testing')
 
 
 if __name__ == "__main__":

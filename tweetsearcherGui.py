@@ -16,7 +16,20 @@ class tweetsearcherGui():
         parent.mdiArea = QMdiArea()
         parent.setCentralWidget(parent.mdiArea)
 
-        parent.statusBar().showMessage("Welcome...")
+        self.statusMessage = QLabel()
+        #self.statusMessage.setFrameStyle(QFrame.Sunken)
+        self.statusMessage.setText('Ready...')
+        self.status = QLabel()
+        self.status.setToolTip('Connection')
+        #self.status.setFrameStyle(QFrame.Sunken)
+        #self.status.setText('Ready...')
+        icon = QPixmap()
+        icon.load('bell.png')
+        self.status.setPixmap(icon)
+        parent.statusBar().insertPermanentWidget(0, self.statusMessage, 0)
+        parent.statusBar().addPermanentWidget(self.status, 0)
+        parent.statusBar().showMessage('Hello')
+        parent.statusBar().setSizeGripEnabled(False)
 
         self.setupMenus()
 
@@ -65,7 +78,27 @@ class newSearchGui():
     def __init__(self, parent):
         self.parent = parent
         self.parent.setAttribute(Qt.WA_DeleteOnClose)
-        self.parent.resize(200, 200)
+        self.parent.resize(200, 550)
+        self.parent.setMinimumWidth(200)
+        self.parent.setMinimumWidth(300)
+        #self.parent.setWindowFlags(Qt.WindowShadeButtonHint)
         self.parent.setWindowTitle("A new search for: " + parent.searchTerm)
 
+        self.widget = QWidget(self.parent)
+        self.widget.setAttribute(Qt.WA_DeleteOnClose)
+        self.parent.setWidget(self.widget)
+
         self.searchTermLineEdit = QLineEdit(self.parent)
+        self.labelOne = QTextBrowser(self.parent)
+        self.labelOne.setText(QString('First label label laeasdkj lasowd as owedoi oi oiusodiuowieur od foiuoiuwq eoiu oiuoifudsoifu woieuoiu <a href="http://google.com">dpafosiduf</a> oi wueoifu opi dhoiufoiwue ofi'))
+        self.labelOne.setReadOnly(True)
+        self.labelTwo = QLabel(QString('Second label'), self.parent)
+
+        self.button = QPushButton(QString('Close'), self.parent)
+        self.parent.connect(self.button, SIGNAL("clicked()"), SLOT("close()"))
+
+        grid = QGridLayout(self.widget)
+        grid.addWidget(self.searchTermLineEdit, 0, 0, 1, 2)
+        grid.addWidget(self.labelOne, 1, 0, 1, 1, Qt.AlignTop)
+        grid.addWidget(self.labelTwo, 1, 1, 1, 1, Qt.AlignTop)
+        grid.addWidget(self.button, 2, 0, 1, 2, Qt.AlignBottom)
