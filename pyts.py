@@ -3,6 +3,7 @@ import urllib2
 import json
 
 def printTweet(result):
+    print result
     print(result['from_user'] + " said: " + result['text'])
 
 def getTweets(searchTerm):
