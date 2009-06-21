@@ -5,6 +5,8 @@ __author__ = "Robert Basic contactme@robertbasic.com"
 __version__ = '0.0.1'
 
 import sys
+import urllib2
+import webbrowser
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -15,11 +17,11 @@ class ScrollArea(QWidget):
         QWidget.__init__(self)
         self.resize(300, 300)
 
-        self.b = QPushButton('Add', self)
+        self.b = QPushButton('&Add', self)
         self.connect(self.b, SIGNAL('clicked()'), self.add)
 
         self.w = QWidget(self)
-        self.grid = QGridLayout(self.w)
+        self.grid = QBoxLayout(QBoxLayout.TopToBottom, self.w)
         self.row = 0
 
         self.sa = QScrollArea(self)
@@ -30,25 +32,23 @@ class ScrollArea(QWidget):
         grid.addWidget(self.sa, 0, 0, 1, 1)
         grid.addWidget(self.b, 0, 1, 1, 1)
 
-
     def add(self):
         text = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-        image = QImage('http://static.twitter.com/images/default_profile_normal.png')
-        imageLabel = QLabel(self.w)
-        #imageLabel.setText('http://static.twitter.com/images/default_profile_normal.png')
-        imageLabel.setPixmap(QPixmap.fromImage(image))
+        
         for t in text:
             label = QLabel(self.w)
-            label.setText(t)
+            label.setOpenExternalLinks(True)
+            label.setText("<a href=\"http://twitter.com/robertbasic\">@robertbasic</a>: %s" % self.row)
 
             line = QLabel(self.w)
             line.setFrameShape(QFrame.HLine)
 
-            self.grid.addWidget(label, self.row, 0, 1, 1)
-            self.grid.addWidget(imageLabel, self.row, 1, 1, 1)
-            self.grid.addWidget(line, self.row+1, 0, 1, 2)
+            #self.grid.addWidget(label, self.row, 0, 1, 1)
+            #self.grid.addWidget(line, self.row+1, 0, 1, 1)
+            self.grid.insertWidget(0, label)
+            self.grid.insertWidget(1, line)
 
-            self.row = self.row+2
+            self.row = self.row+1
 
 
 if __name__ == "__main__":
